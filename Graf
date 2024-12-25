@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <queue>
+#include <string>
+#include <set>
+
+using namespace std;
+
+class SocialGraph {
+private:
+    unordered_map<string, vector<string>> adjList;
+
+public:
+    
+    void addFriendship(const string& person1, const string& person2) {
+        adjList[person1].push_back(person2);
+        adjList[person2].push_back(person1); 
+    }
+
+    
+    void findPairs() {
+        set<pair<string, string>> pairs;
+
+        for (const auto& entry : adjList) {
+            const string& person = entry.first;
+            queue<pair<string, int>> q; 
+            q.push({ person, 0 });
+            set<string> visited;
+            visited.insert(person);
+
+            while (!q.empty()) {
+                auto [current, level] = q.front();
+                q.pop();
+
+                if (level < 3) {
+                    for (const string& friendName : adjList[current]) {
+                        if (visited.find(friendName) == visited.end()) {
+                            visited.insert(friendName);
+                            q.push({ friendName, level + 1 });
+                            
+                            if (level == 2) {
+                                 
+                                pairs.insert({ min(person, friendName), max(person, friendName) });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        
+        for (const auto& p : pairs) {
+            cout << p.first << " и " << p.second << " не знакомы." << endl;
+        }
+    }
+};
+
+int main() {
+    SocialGraph graph;
+    graph.addFriendship("Олег", "Костя");
+    graph.addFriendship("Костя", "Аня");
+    graph.addFriendship("Аня", "Паша");
+    graph.addFriendship("Паша", "Саша");
+    graph.addFriendship("Саша", "Женя");
+    
+
+    graph.findPairs(); 
+
+    return 0;
+}
