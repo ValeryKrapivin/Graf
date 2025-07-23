@@ -1,1 +1,12 @@
-
+Description
+This program models a social network as a graph, where the vertices are people and the edges are friendships between them.
+The main task is to find pairs of people who do not know each other directly and are at a distance of exactly 2 connections
+(that is, they have a mutual friend, but they themselves are not friends).
+How the program works
+The SocialGraph class implements methods for adding friendships and finding pairs of strangers.
+The addFriendship method adds a bidirectional relationship between two people.
+The findPairs method finds all pairs of people who are not directly acquainted but have a mutual friend (distance 2).
+Usage
+In the main() function, a graph object is created.
+Friendships are added using the addFriendship method.
+The findPairs() method is called, which prints all pairs found.
